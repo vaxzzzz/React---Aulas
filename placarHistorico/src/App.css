@@ -1,0 +1,149 @@
+body {
+  background-color: #eef2f7;
+  font-family: 'Segoe UI', Roboto, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+  overflow: hidden;
+}
+
+/* Container do Jogo: ativa a perspectiva 3D geral */
+.game {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 80px;
+  perspective: 1200px; /* Determina o "foco" e profundidade da câmera 3D */
+}
+
+/* O Tabuleiro: rotacionado no espaço para o ângulo isométrico (Imagem 25) */
+.game-board {
+  transform: rotateX(50deg) rotateZ(-45deg);
+  transform-style: preserve-3d; /* Garante que os filhos herdem a física 3D */
+  transition: transform 0.5s ease-out;
+}
+
+/* Efeito interativo ao passar o mouse sobre o tabuleiro */
+.game-board:hover {
+  transform: rotateX(45deg) rotateZ(-40deg) translateZ(10px);
+}
+
+/* Alinhamento das linhas do tabuleiro */
+.game-board > div {
+  display: flex;
+  transform-style: preserve-3d;
+}
+
+/* Cada Quadrado do Jogo: estilizado como um bloco/cubo sólido em 3D [Imagem 7] */
+.square {
+  background: #ffffff;
+  border: none;
+  font-size: 2.8rem;
+  font-weight: 900;
+  width: 90px;
+  height: 90px;
+  margin: 8px;
+  padding: 0;
+  cursor: pointer;
+  border-radius: 12px;
+  
+  /* Posicionamento físico no eixo Z (elevação do bloco) */
+  position: relative;
+  transform-style: preserve-3d;
+  transform: translateZ(25px); /* Descola o botão do chão */
+  
+  /* Sombras em camadas que simulam a "lateral física" do bloco de plástico/madeira */
+  box-shadow: 
+    -1px 1px 0px #e0e0e0,
+    -2px 2px 0px #dcdcdc,
+    -3px 3px 0px #d4d4d4,
+    -4px 4px 0px #cccccc,
+    -5px 5px 0px #c4c4c4,
+    -6px 6px 0px #bcbcbc,
+    -7px 7px 0px #b4b4b4,
+    -8px 8px 16px rgba(0, 0, 0, 0.25); /* Sombra suave projetada no chão */
+  
+  transition: all 0.15s ease-out;
+}
+
+/* Cores vibrantes personalizadas para as marcações X e O */
+.square {
+  color: #3b82f6; /* Azul moderno para o "X" */
+  text-shadow: -1px 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Se você usar "O", podemos deixá-lo vermelho para destacar */
+.square:nth-child(even) {
+  /* Altera levemente para diferenciar as jogadas */
+}
+
+/* Efeito de clique físico: o bloco afunda de verdade quando pressionado! */
+.square:active {
+  transform: translateZ(8px); /* Desce o bloco em direção à base */
+  box-shadow: 
+    -1px 1px 0px #d4d4d4,
+    -2px 2px 0px #cccccc,
+    -3px 3px 4px rgba(0, 0, 0, 0.2); /* Sombra diminui simulando proximidade */
+}
+
+/* Painel de Status do Jogo (Vencedor / Próximo jogador) */
+.status {
+  position: absolute;
+  top: -80px;
+  left: 50%;
+  transform: translateX(-50%) translateZ(40px); /* Flutua acima do tabuleiro */
+  white-space: nowrap;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(8px);
+  padding: 10px 24px;
+  border-radius: 30px;
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: #1e293b;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  text-align: center;
+}
+
+/* Painel de Histórico (viagem no tempo): fica plano ao lado para não distorcer a leitura [Imagem 23] */
+.game-info {
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 16px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+  max-height: 350px;
+  overflow-y: auto;
+  border: 1px solid #e2e8f0;
+}
+
+.game-info ol {
+  padding-left: 20px;
+  margin: 0;
+}
+
+.game-info li {
+  margin-bottom: 12px;
+}
+
+/* Botões do histórico de movimentos */
+.game-info button {
+  background: #f1f5f9;
+  border: 1px solid #cbd5e1;
+  padding: 8px 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  color: #475569;
+  transition: all 0.2s ease;
+}
+
+.game-info button:hover {
+  background: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(59, 130, 246, 0.2);
+}
