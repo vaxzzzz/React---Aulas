@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import './DigitalClock.css'; // Importe o arquivo CSS aqui
+import './DigitalClock.css';
 
 export function DigitalClock() {
   const [time, setTime] = useState(new Date().toLocaleTimeString());
